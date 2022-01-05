@@ -132,8 +132,36 @@
           stop : () => {},
           draw : (x,y) => g.reset().drawImage(atob("DAwBAAMMeeeeeeeecOMMAAMMMMAA"),x,y)
         };
-      }
+      },
       // TODO: recAltitude from pressure sensor
+      baroalt:function() {
+        var altitude = 0;
+        var hasBaro = false;
+        function onBaro(h) {
+            altitude = [h.altitude];
+            hasBaro = true;
+        }
+        return {
+          name : "BaroAlt",
+          fields : ["BaroAltitude"],
+          getValues : () => {
+            var r = altitude;
+            altitude = 0;
+            return r;
+          },
+          start : () => {
+            hasBaro = false;
+            Bangle.on('pressure', onBaro);
+            Bangle.setBarometerPower(1, "recorder");
+          },
+          stop : () => {
+            hasBaro = false;
+            Bangle.removeListener('pressure', onBaro);
+            Bangle.setBarometerPower(0, "recorder");
+          },
+          draw : (x,y) => g.setColor(hasBaro?"#f00":"#888").drawImage(atob("DAyBAAAAAD/H/n/n/j/D/B+AYAAAAA=="),x,y)
+        };
+      }
     };
     /* eg. foobar.recorder.js
     (function(recorders) {

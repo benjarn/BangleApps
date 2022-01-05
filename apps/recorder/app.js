@@ -203,6 +203,10 @@ function viewTrack(filename, info) {
     menu['Plot Speed'] = function() {
       plotGraph(info, "Speed");
     };
+  if (info.fields.includes("BaroAltitude"))
+    menu['Plot BaroAlt.'] = function() {
+      plotGraph(info, "BaroAltitude");
+    };
   // TODO: steps, heart rate?
   menu['Erase'] = function() {
     E.showPrompt("Delete Track?").then(function(v) {
@@ -340,6 +344,16 @@ function plotGraph(info, style) {
   if (style=="Altitude") {
     title = "Altitude (m)";
     var altIdx = info.fields.indexOf("Altitude");
+    while(l!==undefined) {
+      ++nl;c=l.split(",");l = f.readLine(f);
+      if (c[altIdx]=="") continue;
+      i = Math.round(80*(c[timeIdx] - strt)/dur);
+      infn[i]+=+c[altIdx];
+      infc[i]++;
+    }
+  }else if (style=="BaroAltitude") {
+    title = "BaroAltitude (m)";
+    var altIdx = info.fields.indexOf("BaroAltitude");
     while(l!==undefined) {
       ++nl;c=l.split(",");l = f.readLine(f);
       if (c[altIdx]=="") continue;
