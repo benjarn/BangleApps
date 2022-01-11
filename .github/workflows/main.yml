@@ -1,0 +1,25 @@
+name: CI
+
+on: 
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Fetch upstream
+      uses: tjusl/sync-upstream-repo@v0.1.6
+      with:
+      #Git upstream repo
+        upstream_repo: https://github.com/benjarn/BangleApps.git
+        upstream_branch: master
+        local_branch: origin/dev
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
