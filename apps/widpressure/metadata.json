@@ -1,0 +1,14 @@
+{
+  "id": "widpressure",
+  "name": "Barometer widget",
+  "version": "0.01",
+  "description": "Daily altitude widget",
+  "icon": "widget.png",
+  "type": "widget",
+  "tags": "widget",
+  "supports": ["BANGLEJS2"],
+  "storage": [
+    {"name":"widpressure.wid.js","url":"widget.js"},
+    {"name":"widpressure.settings.js","url":"settings.js"}
+  ]
+}

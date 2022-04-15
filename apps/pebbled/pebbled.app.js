@@ -86,7 +86,7 @@ function draw() {
     g.setColor('#fff'); // white on blue or red best contrast
   else
     g.setColor('#000'); // otherwise black regardless of theme
-  g.drawString((stps / 1000 * settings.avStep).toFixed(2) + ' KM', w/2, ha + 107);
+  g.drawString(getAlt().toFixed(2), w/2, ha + 107);
 }
 
 // at x,y width:wi thicknes:th
@@ -106,6 +106,13 @@ function drawCalendar(x,y,wi,th,str) {
   g.setFontLECO1976Regular22();
   g.setFontAlign(0, 0);
   g.drawString(str, x + wi/2, y + wi/2 + th);
+}
+
+function getAlt() {
+  if (WIDGETS.wpressure !== undefined) {
+    return WIDGETS.wpressure.getAlt();
+  }
+  return '0';
 }
 
 function getSteps() {
