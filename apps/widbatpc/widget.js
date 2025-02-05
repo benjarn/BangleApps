@@ -86,7 +86,7 @@
     return changed;
   }
 
-  function draw() {
+  function draw(fromInterval) {
   // if hidden, don't draw
     if (!WIDGETS["batpc"].width) return;
     // else...
@@ -103,6 +103,14 @@
         l = prevMin;
       }
     }
+
+    if (fromInterval === true && this.prevLevel === l && this.prevCharging === Bangle.isCharging()) {
+      return; // unchanged, do nothing
+    }
+
+    this.prevLevel = l;
+    this.prevCharging = Bangle.isCharging();
+
     const c = levelColor(l);
 
     if (Bangle.isCharging() && setting('charger')) {
@@ -148,7 +156,6 @@
     // need to redraw all widgets, because changing the "charger" setting
     // can affect the width and mess with the whole widget layout
     setWidth();
-    g.clear();
     Bangle.drawWidgets();
   }
 
@@ -173,7 +180,7 @@
     if (on) update();
   });
 
-  var id = setInterval(()=>WIDGETS["batpc"].draw(), intervalLow);
+  var id = setInterval(()=>WIDGETS["batpc"].draw(WIDGETS["batpc"], true), intervalLow);
 
   WIDGETS["batpc"]={area:"tr",width:40,draw:draw,reload:reload};
   setWidth();
